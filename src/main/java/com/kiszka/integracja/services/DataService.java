@@ -9,6 +9,8 @@ import com.kiszka.integracja.repositories.ConflictsRepository;
 import com.kiszka.integracja.repositories.CommodityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -52,6 +54,7 @@ public class DataService {
                 typeDto
         );
     }
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
     public List<CommodityDTO> getCommoditiesByTypeAndDateRange(int commodityTypeId, LocalDate startDate, LocalDate endDate) {
         return commodityRepository.findByCommodityTypeAndDateBetween(commodityTypeId, startDate, endDate)
                 .stream()

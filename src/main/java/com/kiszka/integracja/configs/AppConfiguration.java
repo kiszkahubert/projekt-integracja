@@ -15,7 +15,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @Configuration
 public class AppConfiguration {
     private final UserRepository userRepository;
-
     @Autowired
     public AppConfiguration(UserRepository userRepository){
         this.userRepository = userRepository;

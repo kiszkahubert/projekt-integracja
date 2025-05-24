@@ -13,7 +13,6 @@ import org.springframework.xml.xsd.XsdSchema;
 @EnableWs
 @Configuration
 public class WebServiceConfig {
-
     @Bean
     public ServletRegistrationBean<MessageDispatcherServlet> messageDispatcherServlet(ApplicationContext context) {
         MessageDispatcherServlet servlet = new MessageDispatcherServlet();
@@ -21,7 +20,6 @@ public class WebServiceConfig {
         servlet.setTransformWsdlLocations(true);
         return new ServletRegistrationBean<>(servlet, "/ws/*");
     }
-
     @Bean(name = "conflicts")
     public DefaultWsdl11Definition defaultWsdl11Definition(XsdSchema conflictsSchema) {
         DefaultWsdl11Definition definition = new DefaultWsdl11Definition();
@@ -31,7 +29,6 @@ public class WebServiceConfig {
         definition.setSchema(conflictsSchema);
         return definition;
     }
-
     @Bean
     public XsdSchema conflictsSchema() {
         return new SimpleXsdSchema(new org.springframework.core.io.ClassPathResource("conflicts.xsd"));

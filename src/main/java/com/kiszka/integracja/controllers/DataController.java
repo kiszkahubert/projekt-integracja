@@ -18,10 +18,6 @@ public class DataController {
     public DataController(DataService dataService) {
         this.dataService = dataService;
     }
-    @GetMapping("/conflicts")
-    public List<Conflict> getAllConflicts() {
-        return dataService.getAllConflicts();
-    }
     @GetMapping("/commodities")
     public List<CommodityDTO> getCommoditiesByDateRange(
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
