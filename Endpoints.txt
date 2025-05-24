@@ -1,0 +1,20 @@
+Each API call need to contain bearer token (jwt)
+1) To retrieve data of every CONFLICT:
+1.1) POST -> http://localhost:8080/ws
+1.2) Header -> Content-Type: text/xml;charset=UTF-8
+1.3) Body ->
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+                  xmlns:int="http://kiszka.com/integracja">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <int:getConflictsRequest/>
+   </soapenv:Body>
+</soapenv:Envelope>
+
+2) To retrieve data of commodities by range of dates
+2.1) GET -> localhost:8080/api/data/commodities?startDate=YYYY-MM-DD&endDate=YYYY-MM-DD
+
+3) To retrieve data of specific commodity by range of dates
+3.1) GET -> localhost:8080/api/data/commodities/<COMMODITY_ID>?startDate=YYYY-MM-DD&endDate=YYYY-MM-DD
+
+

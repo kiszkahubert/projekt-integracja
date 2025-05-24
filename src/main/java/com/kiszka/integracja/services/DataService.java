@@ -1,6 +1,9 @@
 package com.kiszka.integracja.services;
 
-import com.kiszka.integracja.entities.Conflicts;
+import com.kiszka.integracja.DTOs.CommodityDTO;
+import com.kiszka.integracja.DTOs.CommodityTypeDTO;
+import com.kiszka.integracja.entities.CommodityType;
+import com.kiszka.integracja.entities.Conflict;
 import com.kiszka.integracja.entities.Commodity;
 import com.kiszka.integracja.repositories.ConflictsRepository;
 import com.kiszka.integracja.repositories.CommodityRepository;
@@ -9,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class DataService {
@@ -21,15 +25,37 @@ public class DataService {
         this.commodityRepository = commodityRepository;
     }
 
-    public List<Conflicts> getAllConflicts() {
+    public List<Conflict> getAllConflicts() {
         return conflictsRepository.findAll();
     }
 
-    public List<Commodity> getCommoditiesByDateRange(LocalDate startDate, LocalDate endDate) {
-        return commodityRepository.findByDateBetween(startDate, endDate);
+    public List<CommodityDTO> getCommoditiesByDateRange(LocalDate startDate, LocalDate endDate) {
+        return commodityRepository.findByDateBetween(startDate, endDate)
+                .stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
     }
 
-    public List<Commodity> getCommoditiesByTypeAndDateRange(int commodityTypeId, LocalDate startDate, LocalDate endDate) {
-        return commodityRepository.findByCommodityTypeAndDateBetween(commodityTypeId, startDate, endDate);
+    private CommodityDTO convertToDto(Commodity commodity) {
+        CommodityType type = commodity.getCommodityType();
+        CommodityTypeDTO typeDto = new CommodityTypeDTO(
+                type.getId(),
+                type.getName(),
+                type.getCategory(),
+                type.getQuote()
+        );
+
+        return new CommodityDTO(
+                commodity.getCommodityId(),
+                commodity.getDate(),
+                commodity.getPrice(),
+                typeDto
+        );
+    }
+    public List<CommodityDTO> getCommoditiesByTypeAndDateRange(int commodityTypeId, LocalDate startDate, LocalDate endDate) {
+        return commodityRepository.findByCommodityTypeAndDateBetween(commodityTypeId, startDate, endDate)
+                .stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
     }
 }

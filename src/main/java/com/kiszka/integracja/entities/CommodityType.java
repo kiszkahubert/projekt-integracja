@@ -1,5 +1,6 @@
 package com.kiszka.integracja.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
