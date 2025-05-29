@@ -1,0 +1,48 @@
+<div class="parent">
+  <form class="form" autocomplete="off" (ngSubmit)="handleLogin(loginForm.value)" #loginForm="ngForm">
+    <div class="control">
+      <h1>Sign In</h1>
+    </div>
+    <div class="control block-cube block-input">
+      <input name="username" type="text" placeholder="Username" ngModel required>
+      <div class="bg-top">
+        <div class="bg-inner"></div>
+      </div>
+      <div class="bg-right">
+        <div class="bg-inner"></div>
+      </div>
+      <div class="bg">
+        <div class="bg-inner"></div>
+      </div>
+    </div>
+    <div class="control block-cube block-input">
+      <input name="password" type="password" placeholder="Password">
+      <div class="bg-top">
+        <div class="bg-inner"></div>
+      </div>
+      <div class="bg-right">
+        <div class="bg-inner"></div>
+      </div>
+      <div class="bg">
+        <div class="bg-inner"></div>
+      </div>
+    </div>
+    <button class="btn block-cube block-cube-hover" type="submit">
+      <div class="bg-top">
+        <div class="bg-inner"></div>
+      </div>
+      <div class="bg-right">
+        <div class="bg-inner"></div>
+      </div>
+      <div class="bg">
+        <div class="bg-inner"></div>
+      </div>
+      <div class="text">
+        Log In
+      </div>
+    </button>
+    <div class="form-footer">
+      <p>Don't have an account? <a routerLink="/register">Sign up</a></p>
+    </div>
+  </form>
+</div>
