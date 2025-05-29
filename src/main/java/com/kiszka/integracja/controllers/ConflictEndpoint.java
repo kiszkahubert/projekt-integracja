@@ -13,16 +13,12 @@ import java.util.List;
 
 @Endpoint
 public class ConflictEndpoint {
-
     private static final String NAMESPACE_URI = "http://kiszka.com/integracja";
-
     private final DataService dataService;
-
     @Autowired
     public ConflictEndpoint(DataService dataService) {
         this.dataService = dataService;
     }
-
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "getConflictsRequest")
     @ResponsePayload
     public GetConflictsResponse getConflicts() {

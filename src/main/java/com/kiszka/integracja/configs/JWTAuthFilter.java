@@ -22,7 +22,6 @@ public class JWTAuthFilter extends OncePerRequestFilter {
     private final HandlerExceptionResolver handlerExceptionResolver;
     private final JWTService jwtService;
     private final UserDetailsService userDetailsService;
-
     public JWTAuthFilter(
             JWTService jwtService,
             UserDetailsService userDetailsService,
@@ -32,7 +31,6 @@ public class JWTAuthFilter extends OncePerRequestFilter {
         this.userDetailsService = userDetailsService;
         this.handlerExceptionResolver = handlerExceptionResolver;
     }
-
     @Override
     protected void doFilterInternal(
             HttpServletRequest request,
