@@ -14,7 +14,6 @@ import java.time.format.DateTimeFormatter;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "Conflict", propOrder = {"id", "name", "startDate", "endDate"})
 public class ConflictSoapDTO {
-
     @XmlElement(required = true)
     private int id;
     @XmlElement(required = true)
