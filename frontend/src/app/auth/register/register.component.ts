@@ -22,6 +22,11 @@ export class RegisterComponent {
       return;
     }
 
+    if (!creds.username || !creds.password || !creds.confirmPassword) {
+      this.errorMessage = 'Username and password are required';
+      return;
+    }
+
     this.errorMessage = '';
     this.authService.register({
       username: creds.username,

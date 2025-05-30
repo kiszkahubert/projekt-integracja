@@ -16,7 +16,7 @@
       </div>
     </div>
     <div class="control block-cube block-input">
-      <input name="password" type="password" placeholder="Password">
+      <input name="password" type="password" placeholder="Password" ngModel required>
       <div class="bg-top">
         <div class="bg-inner"></div>
       </div>
@@ -43,6 +43,9 @@
     </button>
     <div class="form-footer">
       <p>Don't have an account? <a routerLink="/register">Sign up</a></p>
+    </div>
+    <div *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
     </div>
   </form>
 </div>

@@ -3,9 +3,6 @@
     <div class="control">
       <h1>Sign Up</h1>
     </div>
-    <div *ngIf="errorMessage" class="error-message">
-      {{ errorMessage }}
-    </div>
     <div class="control block-cube block-input">
       <input name="username" type="text" placeholder="Username" ngModel required>
       <div class="bg-top">
@@ -58,6 +55,9 @@
     </button>
     <div class="form-footer">
       <p>Already have an account? <a routerLink="/login">Log in</a></p>
+    </div>
+    <div *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
     </div>
   </form>
 </div>
