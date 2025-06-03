@@ -40,6 +40,13 @@ public class DataService {
         this.commodityRepository = commodityRepository;
         this.commodityTypeRepository = commodityTypeRepository;
     }
+    public List<CommodityTypeDTO> getAllCommodityTypes(){
+        return commodityTypeRepository.findAll()
+                .stream()
+                .map(this::convertTypeToDto)
+                .collect(Collectors.toList());
+
+    }
     public List<Conflict> getAllConflicts() {
         return conflictsRepository.findAll();
     }
@@ -62,6 +69,14 @@ public class DataService {
                 commodity.getDate(),
                 commodity.getPrice(),
                 typeDto
+        );
+    }
+    private CommodityTypeDTO convertTypeToDto(CommodityType type){
+        return new CommodityTypeDTO(
+                type.getId(),
+                type.getName(),
+                type.getCategory(),
+                type.getQuote()
         );
     }
     @Transactional(isolation = Isolation.REPEATABLE_READ)

@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.kiszka.integracja.DTOs.CommodityDTO;
+import com.kiszka.integracja.DTOs.CommodityTypeDTO;
+import com.kiszka.integracja.entities.CommodityType;
 import com.kiszka.integracja.entities.Conflict;
 import com.kiszka.integracja.services.DataService;
 import com.kiszka.integracja.soap.ConflictSoapDTO;
@@ -31,6 +33,10 @@ public class DataController {
     @Autowired
     public DataController(DataService dataService) {
         this.dataService = dataService;
+    }
+    @GetMapping("/commodities/types/all")
+    public List<CommodityTypeDTO> getAllCommoditiesType(){
+        return dataService.getAllCommodityTypes();
     }
     @GetMapping("/commodities")
     public List<CommodityDTO> getCommoditiesByDateRange(
