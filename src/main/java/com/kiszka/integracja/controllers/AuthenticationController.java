@@ -4,6 +4,7 @@ import com.kiszka.integracja.DTOs.UserDTO;
 import com.kiszka.integracja.entities.User;
 import com.kiszka.integracja.services.AuthenticationService;
 import com.kiszka.integracja.services.JWTService;
+import jakarta.validation.Valid;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -21,17 +22,17 @@ public class AuthenticationController {
     public AuthenticationController(
             JWTService jwtService,
             AuthenticationService authenticationService
-    ){
+    ) {
         this.jwtService = jwtService;
         this.authenticationService = authenticationService;
     }
     @PostMapping("/signup")
-    public ResponseEntity<User> register(@RequestBody UserDTO userDTO){
+    public ResponseEntity<User> register(@Valid @RequestBody UserDTO userDTO) {
         User registeredUser = authenticationService.signup(userDTO);
         return ResponseEntity.ok(registeredUser);
     }
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> authenticate(@RequestBody UserDTO userDTO){
+    public ResponseEntity<LoginResponse> authenticate(@Valid @RequestBody UserDTO userDTO) {
         User authenticatedUser = authenticationService.authenticate(userDTO);
         String jwtToken = jwtService.generateToken(authenticatedUser);
         LoginResponse loginResponse = new LoginResponse()
@@ -41,8 +42,10 @@ public class AuthenticationController {
     }
 }
 
-@Getter @Setter @Accessors(chain = true)
-class LoginResponse{
+@Getter
+@Setter
+@Accessors(chain = true)
+class LoginResponse {
     private String token;
     private long expiresIn;
 }

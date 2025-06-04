@@ -27,9 +27,14 @@ export class AuthService {
         return this.http.post<LoginResponse>('http://localhost:8080/auth/login',{ username, password })
         .pipe(
             tap(response => {
-                console.log('Odpowiedź z backendu:', response);
-                localStorage.setItem('token', response.token);
-                localStorage.setItem('expiresIn', response.expiresIn.toString());
+                console.log('Login response:', response);
+                if (response && response.token) {
+                    localStorage.setItem('token', response.token);
+                    localStorage.setItem('expiresIn', response.expiresIn.toString());
+                    console.log('Token saved:', response.token);
+                } else {
+                    console.error('No token in response');
+                }
             })
         );
     }
@@ -40,10 +45,9 @@ export class AuthService {
     }
     
     getToken(): string | null {
-        if (typeof localStorage === 'undefined') {
-            return null; // localStorage nie jest dostępny
-        }
-        return localStorage.getItem('token');
+        const token = localStorage.getItem('token');
+        console.log('Getting token:', token);
+        return token;
     }
     
     isAuthenticated(): boolean {
@@ -54,6 +58,8 @@ export class AuthService {
         console.log('ExpiresIn:', expiresIn);
         if (!expiresIn) return false;
         const expirationDate = new Date(new Date().getTime() + parseInt(expiresIn));
-        return expirationDate > new Date();
+        const isValid = expirationDate > new Date();
+        console.log('Token valid until:', expirationDate, 'Is valid:', isValid);
+        return isValid;
     }
 }

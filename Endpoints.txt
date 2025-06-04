@@ -17,4 +17,18 @@ Each API call need to contain bearer token (jwt)
 3) To retrieve data of specific commodity by range of dates
 3.1) GET -> localhost:8080/api/data/commodities/<COMMODITY_ID>?startDate=YYYY-MM-DD&endDate=YYYY-MM-DD
 
+4) To save conflicts XML to database use this endpoint
+4.1) POST -> localhost:8080/api/data/conflicts/import-xml
+4.2) In body send a file (In postman in body -> form-data -> key name set to file and then next to the input change from text to file and in value give file)
 
+5) To extract conflicts XML from database use this endpoint
+5.1) GET -> localhost:8080/api/data/conflicts/export-xml
+
+6) To extract commodities JSON from database use this endpoint
+6.1) GET -> localhost:8080/api/data/commodities/export?startDate=YYYY-MM-DD&endDate=YYYY-MM-DD
+
+7) To save commodities JSON to database use this endpoint (same thing as in XML)
+7.1) POST -> localhost:8080/api/data/commodities/import-csv
+
+8) To get all commodity type
+8.1) GET -> localhost:8080/api/data/commodities/types/all

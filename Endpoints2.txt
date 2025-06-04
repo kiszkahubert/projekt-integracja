@@ -1,0 +1,34 @@
+Każde wywołanie API musi zawierać token typu bearer (jwt).
+1) Aby pobrać dane dotyczące każdego KONFLIKTU:
+1.1) POST -> http://localhost:8080/ws
+1.2) Nagłówek -> Content-Type: text/xml;charset=UTF-8
+1.3) Treść ->
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+                  xmlns:int="http://kiszka.com/integracja">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <int:getConflictsRequest/>
+   </soapenv:Body>
+</soapenv:Envelope>
+
+2) Aby pobrać dane dotyczące towarów w zakresie dat:
+2.1) GET -> localhost:8080/api/data/commodities?startDate=YYYY-MM-DD&endDate=YYYY-MM-DD
+
+3) Aby pobrać dane dotyczące konkretnego towaru w zakresie dat:
+3.1) GET -> localhost:8080/api/data/commodities/<COMMODITY_ID>?startDate=YYYY-MM-DD&endDate=YYYY-MM-DD
+
+4) Aby zapisać XML dotyczący konfliktów do bazy danych, użyj tego endpointu:
+4.1) POST -> localhost:8080/api/data/conflicts/import-xml
+4.2) W treści wyślij plik (W Postman w treści -> form-data -> ustaw nazwę klucza na file, a następnie obok zmień z tekstu na plik i w wartości podaj plik)
+
+5) Aby wyeksportować XML dotyczący konfliktów z bazy danych, użyj tego endpointu:
+5.1) GET -> localhost:8080/api/data/conflicts/export-xml
+
+6) Aby wyeksportować JSON dotyczący towarów z bazy danych, użyj tego endpointu:
+6.1) GET -> localhost:8080/api/data/commodities/export?startDate=YYYY-MM-DD&endDate=YYYY-MM-DD
+
+7) Aby zapisać JSON dotyczący towarów do bazy danych, użyj tego endpointu (tak samo jak w przypadku XML):
+7.1) POST -> localhost:8080/api/data/commodities/import-csv
+
+8) Aby pobrać wszystkie typy towarów:
+8.1) GET -> localhost:8080/api/data/commodities/types/all
