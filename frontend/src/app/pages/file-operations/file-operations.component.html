@@ -1,0 +1,43 @@
+<div class="file-operations-container">
+  <div class="operation-group">
+    <h3>Commodity Data</h3>
+    <div class="button-group">
+      <button (click)="exportToJson()" class="operation-button">
+        Export to JSON
+      </button>
+      <div class="file-input-wrapper">
+        <input 
+          type="file" 
+          accept=".json" 
+          (change)="importFromJson($event)" 
+          class="file-input" 
+          id="jsonImport"
+        >
+        <label for="jsonImport" class="file-input-label">
+          Import from JSON
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <div class="operation-group">
+    <h3>Conflict Data</h3>
+    <div class="button-group">
+      <button (click)="exportToXml()" class="operation-button">
+        Export to XML
+      </button>
+      <div class="file-input-wrapper">
+        <input 
+          type="file" 
+          accept=".xml" 
+          (change)="importFromXml($event)" 
+          class="file-input" 
+          id="xmlImport"
+        >
+        <label for="xmlImport" class="file-input-label">
+          Import from XML
+        </label>
+      </div>
+    </div>
+  </div>
+</div> 
