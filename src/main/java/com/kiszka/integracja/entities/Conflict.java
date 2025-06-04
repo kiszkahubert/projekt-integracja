@@ -1,9 +1,6 @@
 package com.kiszka.integracja.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -12,6 +9,7 @@ import java.time.LocalDate;
 @Table(name = "conflicts")
 public class Conflict {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "conflict_id")
     private int id;
     private String name;

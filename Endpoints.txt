@@ -28,7 +28,7 @@ Each API call need to contain bearer token (jwt)
 6.1) GET -> localhost:8080/api/data/commodities/export?startDate=YYYY-MM-DD&endDate=YYYY-MM-DD
 
 7) To save commodities JSON to database use this endpoint (same thing as in XML)
-7.1) POST -> localhost:8080/api/data/commodities/import-csv
+7.1) POST -> localhost:8080/api/data/commodities/import-json
 
 8) To get all commodity type
 8.1) GET -> localhost:8080/api/data/commodities/types/all

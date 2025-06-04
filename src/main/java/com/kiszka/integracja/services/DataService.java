@@ -1,5 +1,8 @@
 package com.kiszka.integracja.services;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.kiszka.integracja.DTOs.CommodityDTO;
 import com.kiszka.integracja.DTOs.CommodityTypeDTO;
 import com.kiszka.integracja.entities.CommodityType;
@@ -13,6 +16,7 @@ import com.kiszka.integracja.soap.GetConflictsResponse;
 import com.opencsv.CSVReader;
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.Unmarshaller;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -26,6 +30,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 public class DataService {
     private final ConflictsRepository conflictsRepository;
@@ -65,7 +70,6 @@ public class DataService {
                 type.getQuote()
         );
         return new CommodityDTO(
-                commodity.getCommodityId(),
                 commodity.getDate(),
                 commodity.getPrice(),
                 typeDto
@@ -121,6 +125,36 @@ public class DataService {
             throw new RuntimeException(e);
         }
     }
+
+    public void importCommoditiesFromJSON(MultipartFile file) {
+        try {
+            log.info("stating json import");
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.registerModule(new JavaTimeModule());
+            mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+            CommodityDTO[] commodityDTOs = mapper.readValue(file.getInputStream(), CommodityDTO[].class);
+            for (CommodityDTO commodityDTO : commodityDTOs) {
+                CommodityType type = commodityTypeRepository.findById(commodityDTO.getType().getId())
+                        .orElseGet(() -> {
+                            CommodityType newType = new CommodityType();
+                            newType.setId(commodityDTO.getType().getId());
+                            newType.setName(commodityDTO.getType().getName());
+                            newType.setCategory(commodityDTO.getType().getCategory());
+                            newType.setQuote(commodityDTO.getType().getQuote());
+                            return commodityTypeRepository.save(newType);
+                        });
+                Commodity commodity = new Commodity();
+                commodity.setCommodityType(type);
+                commodity.setDate(commodityDTO.getDate());
+                commodity.setPrice(commodityDTO.getPrice());
+                commodityRepository.save(commodity);
+            }
+            log.info("import finished");
+        } catch (Exception e) {
+            log.info(e.getMessage());
+            throw new RuntimeException(e);
+        }
+    }
     public void importConflictsFromXml(String xmlContent) throws Exception {
         String bodyContent = extractSoapBody(xmlContent);
         JAXBContext context = JAXBContext.newInstance(GetConflictsResponse.class);
@@ -128,7 +162,6 @@ public class DataService {
         GetConflictsResponse response = (GetConflictsResponse) unmarshaller.unmarshal(new StreamSource(new StringReader(bodyContent)));
         for (var obj : response.getConflict()) {
             Conflict conflict = new Conflict();
-            conflict.setId(obj.getId());
             conflict.setName(obj.getName());
             conflict.setStartDate(LocalDate.parse(obj.getStartDate()));
             if (obj.getEndDate() != null && !obj.getEndDate().isEmpty()) {

@@ -57,6 +57,10 @@ public class DataController {
     public void importCommodities(@RequestParam("file")MultipartFile file){
         dataService.importCommoditiesFromCSV(file);
     }
+    @PostMapping("/commodities/import-json")
+    public void importCommoditiesFromJson(@RequestParam("file") MultipartFile file) {
+        dataService.importCommoditiesFromJSON(file);
+    }
     @GetMapping("/commodities/export")
     public void exportCommodities(
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
@@ -98,15 +102,10 @@ public class DataController {
         response.getWriter().flush();
     }
     @PostMapping(value = "/conflicts/import-xml", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<String> importConflictsFromXml(@RequestParam("file") MultipartFile file) {
+    public void importConflictsFromXml(@RequestParam("file") MultipartFile file) {
         try {
             String xmlContent = new String(file.getBytes());
             dataService.importConflictsFromXml(xmlContent);
-            return ResponseEntity.ok("All good");
-        } catch (Exception e) {
-            return ResponseEntity
-                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(e.getMessage());
-        }
+        } catch (Exception e) {}
     }
 }
