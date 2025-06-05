@@ -28,13 +28,14 @@ export class FileOperationsComponent {
       'Authorization': `Bearer ${token}`
     });
 
-    this.http.post(`${this.baseUrl}/api/data/commodities/import-csv`, formData, { 
+    this.http.post(`${this.baseUrl}/api/data/commodities/import-json`, formData, { 
       headers,
       observe: 'response'
     }).subscribe({
       next: (response) => {
         if (response.status === 200) {
           alert('Commodity data imported successfully');
+          window.location.reload();
         } else {
           alert('Error importing commodity data');
         }
@@ -101,6 +102,7 @@ export class FileOperationsComponent {
       next: (response) => {
         if (response.status === 200) {
           alert('Conflict data imported successfully');
+          window.location.reload();
         } else {
           alert('Error importing conflict data');
         }
