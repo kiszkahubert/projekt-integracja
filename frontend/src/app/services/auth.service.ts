@@ -17,14 +17,16 @@ interface RegisterDTO{
 })
 
 export class AuthService {
+    private baseUrl = 'http://localhost:8080';
+
     constructor(private http: HttpClient) {}
 
     register(registerData: RegisterDTO): Observable<any>{
-        return this.http.post('http://localhost:8080/auth/signup',registerData)
+        return this.http.post(`${this.baseUrl}/auth/signup`, registerData)
     }
 
     login(username: string, password: string): Observable<LoginResponse>{
-        return this.http.post<LoginResponse>('http://localhost:8080/auth/login',{ username, password })
+        return this.http.post<LoginResponse>(`${this.baseUrl}/auth/login`, { username, password })
         .pipe(
             tap(response => {
                 console.log('Login response:', response);

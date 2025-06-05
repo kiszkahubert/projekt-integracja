@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { saveAs } from 'file-saver';
+import { FileOperationsService } from '../../services/file-operations.service';
 
 @Component({
   selector: 'app-file-operations',
@@ -11,9 +11,7 @@ import { saveAs } from 'file-saver';
   styleUrls: ['./file-operations.component.scss']
 })
 export class FileOperationsComponent {
-  private baseUrl = 'http://localhost:8080';
-
-  constructor(private http: HttpClient) {}
+  constructor(private fileOperationsService: FileOperationsService) {}
 
   importFromJson(event: Event) {
     const input = event.target as HTMLInputElement;
@@ -23,15 +21,7 @@ export class FileOperationsComponent {
     const formData = new FormData();
     formData.append('file', file);
 
-    const token = localStorage.getItem('token');
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`
-    });
-
-    this.http.post(`${this.baseUrl}/api/data/commodities/import-json`, formData, { 
-      headers,
-      observe: 'response'
-    }).subscribe({
+    this.fileOperationsService.importFromJson(formData).subscribe({
       next: (response) => {
         if (response.status === 200) {
           alert('Commodity data imported successfully');
@@ -48,22 +38,9 @@ export class FileOperationsComponent {
   }
 
   exportToJson() {
-    const token = localStorage.getItem('token');
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`
-    });
-
-    const startDateStr = '2022-01-01';
-    const endDateStr = '2024-01-01';
-
-    this.http.get(`${this.baseUrl}/api/data/commodities/export?startDate=${startDateStr}&endDate=${endDateStr}`, { 
-      headers,
-      responseType: 'text',
-      observe: 'response'
-    }).subscribe({
+    this.fileOperationsService.exportToJson().subscribe({
       next: (response) => {
         if (response.status === 200 && response.body) {
-          
           const blob = new Blob([response.body], { type: 'application/json' });
           saveAs(blob, 'commodities.json');
         } else {
@@ -89,16 +66,7 @@ export class FileOperationsComponent {
     const formData = new FormData();
     formData.append('file', file);
 
-    const token = localStorage.getItem('token');
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`
-    });
-
-    this.http.post(`${this.baseUrl}/api/data/conflicts/import-xml`, formData, { 
-      headers,
-      responseType: 'text',
-      observe: 'response'
-    }).subscribe({
+    this.fileOperationsService.importFromXml(formData).subscribe({
       next: (response) => {
         if (response.status === 200) {
           alert('Conflict data imported successfully');
@@ -115,16 +83,7 @@ export class FileOperationsComponent {
   }
 
   exportToXml() {
-    const token = localStorage.getItem('token');
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`
-    });
-
-    this.http.get(`${this.baseUrl}/api/data/conflicts/export-xml`, { 
-      headers,
-      responseType: 'blob',
-      observe: 'response'
-    }).subscribe({
+    this.fileOperationsService.exportToXml().subscribe({
       next: (response) => {
         if (response.status === 200 && response.body) {
           saveAs(response.body, 'conflicts.xml');
