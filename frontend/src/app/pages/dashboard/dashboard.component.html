@@ -1,1 +1,40 @@
-<p>dashboard works!</p>
+<app-navbar></app-navbar>
+<div class="dashboard-container">
+  <div class="form-group">
+    <label for="conflictSelect">Select Conflict:</label>
+    <select 
+      id="conflictSelect" 
+      [(ngModel)]="selectedConflict" 
+      (ngModelChange)="onConflictChange()"
+      class="form-control">
+      <option [ngValue]="null">Select a conflict</option>
+      <option *ngFor="let conflict of conflicts" [ngValue]="conflict">
+        {{conflict.name}} ({{conflict.startDate}} - {{conflict.endDate || 'Ongoing'}})
+      </option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label for="commodityTypeSelect">Select Commodity Type:</label>
+    <select 
+      id="commodityTypeSelect" 
+      [(ngModel)]="selectedCommodityType" 
+      (ngModelChange)="onCommodityTypeChange()"
+      class="form-control">
+      <option [ngValue]="null">Select a commodity type</option>
+      <option *ngFor="let type of commodityTypes" [ngValue]="type">
+        {{type.name}} ({{type.category}})
+      </option>
+    </select>
+  </div>
+
+  <div *ngIf="showChart && commodityData.length > 0">
+    <app-commodity-chart 
+      [commodityData]="commodityData"
+      [conflictName]="selectedConflict.name"
+      [commodityName]="selectedCommodityType.name">
+    </app-commodity-chart>
+  </div>
+
+  <app-file-operations></app-file-operations>
+</div>

@@ -11,13 +11,11 @@ import com.kiszka.integracja.entities.Commodity;
 import com.kiszka.integracja.repositories.CommodityTypeRepository;
 import com.kiszka.integracja.repositories.ConflictsRepository;
 import com.kiszka.integracja.repositories.CommodityRepository;
-import com.kiszka.integracja.soap.ConflictSoapDTO;
 import com.kiszka.integracja.soap.GetConflictsResponse;
 import com.opencsv.CSVReader;
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.Unmarshaller;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
@@ -84,6 +82,9 @@ public class DataService {
                 type.getQuote()
         );
     }
+    // Domyślnie dla bazy PostgreSQL korzystamy z izolacij READ COMMITED
+    // READ COMMITED - widzi tylko dane zatwierdzone przez inne transakcje
+    // REPEATABLE READ - gwarantuje ze te same dane nie zmienia sie podczas trwania transakcji
     @Transactional(isolation = Isolation.REPEATABLE_READ)
     public List<CommodityDTO> getCommoditiesByTypeAndDateRange(int commodityTypeId, LocalDate startDate, LocalDate endDate) {
         return commodityRepository.findByCommodityTypeAndDateBetween(commodityTypeId, startDate, endDate)

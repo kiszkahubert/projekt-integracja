@@ -3,7 +3,6 @@
            targetNamespace="http://kiszka.com/integracja"
            xmlns:tns="http://kiszka.com/integracja"
            elementFormDefault="qualified">
-
     <xs:element name="getConflictsRequest" type="xs:anyType"/>
     <xs:element name="getConflictsResponse">
         <xs:complexType>
@@ -21,5 +20,4 @@
             </xs:sequence>
         </xs:complexType>
     </xs:element>
-
 </xs:schema>

@@ -1,5 +1,13 @@
 version: '3.8'
 services:
+  frontend:
+    image: kiszkahubert/frontend:latest
+    ports:
+      - "4000:80"
+    depends_on:
+      - app
+    restart: on-failure
+
   app:
     image: kiszkahubert/backend-int:latest
     depends_on:

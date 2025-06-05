@@ -90,6 +90,7 @@ public class DataController {
         JAXBContext context = JAXBContext.newInstance(GetConflictsResponse.class);
         Marshaller marshaller = context.createMarshaller();
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+        //bo samodzielnie łącze fragmenty xmla
         marshaller.setProperty(Marshaller.JAXB_FRAGMENT, Boolean.TRUE);
         response.getWriter().write("""
         <SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
