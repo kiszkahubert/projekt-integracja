@@ -11,8 +11,8 @@ import java.time.LocalDate;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class CommodityDTO {
+    private int id;
     private LocalDate date;
     private double price;
     private CommodityTypeDTO type;

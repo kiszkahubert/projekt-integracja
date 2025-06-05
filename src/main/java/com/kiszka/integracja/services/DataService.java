@@ -70,6 +70,7 @@ public class DataService {
                 type.getQuote()
         );
         return new CommodityDTO(
+                commodity.getCommodityId(),
                 commodity.getDate(),
                 commodity.getPrice(),
                 typeDto
@@ -137,7 +138,6 @@ public class DataService {
                 CommodityType type = commodityTypeRepository.findById(commodityDTO.getType().getId())
                         .orElseGet(() -> {
                             CommodityType newType = new CommodityType();
-                            newType.setId(commodityDTO.getType().getId());
                             newType.setName(commodityDTO.getType().getName());
                             newType.setCategory(commodityDTO.getType().getCategory());
                             newType.setQuote(commodityDTO.getType().getQuote());
@@ -155,20 +155,25 @@ public class DataService {
             throw new RuntimeException(e);
         }
     }
-    public void importConflictsFromXml(String xmlContent) throws Exception {
-        String bodyContent = extractSoapBody(xmlContent);
-        JAXBContext context = JAXBContext.newInstance(GetConflictsResponse.class);
-        Unmarshaller unmarshaller = context.createUnmarshaller();
-        GetConflictsResponse response = (GetConflictsResponse) unmarshaller.unmarshal(new StreamSource(new StringReader(bodyContent)));
-        for (var obj : response.getConflict()) {
-            Conflict conflict = new Conflict();
-            conflict.setName(obj.getName());
-            conflict.setStartDate(LocalDate.parse(obj.getStartDate()));
-            if (obj.getEndDate() != null && !obj.getEndDate().isEmpty()) {
-                conflict.setEndDate(LocalDate.parse(obj.getEndDate()));
+    public void importConflictsFromXml(String xmlContent){
+        try{
+            String bodyContent = extractSoapBody(xmlContent);
+            JAXBContext context = JAXBContext.newInstance(GetConflictsResponse.class);
+            Unmarshaller unmarshaller = context.createUnmarshaller();
+            GetConflictsResponse response = (GetConflictsResponse) unmarshaller.unmarshal(new StreamSource(new StringReader(bodyContent)));
+            for (var obj : response.getConflict()) {
+                Conflict conflict = new Conflict();
+                conflict.setName(obj.getName());
+                conflict.setStartDate(LocalDate.parse(obj.getStartDate()));
+                if (obj.getEndDate() != null && !obj.getEndDate().isEmpty()) {
+                    conflict.setEndDate(LocalDate.parse(obj.getEndDate()));
+                }
+                conflictsRepository.save(conflict);
             }
-            conflictsRepository.save(conflict);
+        } catch (Exception e){
+            log.info(e.getMessage());
         }
+
     }
 
     private String extractSoapBody(String xmlContent) {

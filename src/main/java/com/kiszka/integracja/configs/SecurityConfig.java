@@ -21,10 +21,7 @@ import java.util.List;
 public class SecurityConfig {
     private final AuthenticationProvider authenticationProvider;
     private final JWTAuthFilter jwtAuthFilter;
-    public SecurityConfig(
-            AuthenticationProvider authenticationProvider,
-            JWTAuthFilter jwtAuthFilter
-    ){
+    public SecurityConfig( AuthenticationProvider authenticationProvider, JWTAuthFilter jwtAuthFilter){
         this.authenticationProvider = authenticationProvider;
         this.jwtAuthFilter = jwtAuthFilter;
     }

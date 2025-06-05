@@ -19,10 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthenticationController {
     private final JWTService jwtService;
     private final AuthenticationService authenticationService;
-    public AuthenticationController(
-            JWTService jwtService,
-            AuthenticationService authenticationService
-    ) {
+    public AuthenticationController(JWTService jwtService, AuthenticationService authenticationService) {
         this.jwtService = jwtService;
         this.authenticationService = authenticationService;
     }
