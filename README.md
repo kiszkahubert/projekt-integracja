@@ -25,7 +25,7 @@ cd projekt-integracja
 docker compose up -d
 ```
 
-Aplikacja będzie dostępna pod następującymi adresami:
+Aplikacja będzie dostępna pod następującymi endpointami:
 - Frontend: http://localhost:4000
 - Backend: http://localhost:8080
 - Postgres: localhost:5432
