@@ -12,7 +12,7 @@
 
 1. Sklonuj repozytorium:
 ```bash
-git clone [URL_REPOZYTORIUM]
+git clone https://github.com/kiszkahubert/projekt-integracja.git
 ```
 
 2. Przejdź do katalogu projektu:
